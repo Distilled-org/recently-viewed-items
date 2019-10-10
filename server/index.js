@@ -3,7 +3,7 @@ const app = express();
 const PORT = 3000 || process.env.PORT;
 const bp = require('body-parser');
 
-app.use(express.static('public'));
+app.use(express.static(__dirname + '/../client/dist'));
 app.use(bp.json());
 
 app.get('/', function(req, res) {
