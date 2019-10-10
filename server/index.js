@@ -2,8 +2,11 @@ const express = require('express');
 const app = express();
 const PORT = 3000 || process.env.PORT;
 const bp = require('body-parser');
+const path = require('path');
 
-app.use(express.static(__dirname + '/../client/dist'));
+console.log(__dirname + '../client/src/dist')
+
+app.use(express.static(path.resolve(__dirname, '..', 'client', 'src','dist')));
 app.use(bp.json());
 
 app.get('/', function(req, res) {
