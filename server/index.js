@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const PORT = 3000 || process.env.PORT;
+const PORT = 4000 || process.env.PORT;
 const bp = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -13,12 +13,12 @@ app.use(express.static(path.resolve(__dirname, '..', 'client', 'src', 'dist')));
 app.use(bp.json());
 
 app.get('/items/:id', (req, res) => {
-  itemModel.item.find(req.params, (err, data) => {
+  itemModel.item.findOne(req.params, (err, data) => {
     if (err) {
       // eslint-disable-next-line no-console
       console.log(err);
     } else {
-      res.send(data[0]);
+      res.send(data);
     }
   });
 });

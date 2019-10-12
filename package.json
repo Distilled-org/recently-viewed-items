@@ -1,10 +1,10 @@
 {
   "name": "recently-viewed",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A recently viewed items widget",
+  "main": "./client/src/index.jsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "react-dev": "webpack -d --watch",
     "start-server": "nodemon server/index.js",
     "seed-database": "node database/Seed.js"
