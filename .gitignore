@@ -1,3 +1,2 @@
 node_modules
-/home/acrav/Alex_service/database/databaseImageFetcher.js
-/home/acrav/Alex_service/database/images
+./client/src/dist/bundle.js
