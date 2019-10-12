@@ -13,7 +13,6 @@ class App extends React.Component {
     return (
       <div>
         <div>React is Rendering!</div>
-        <img src="https://picsum.photos/375/393"></img>
       </div>
     )
   }
