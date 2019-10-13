@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/items');
+mongoose.connect('mongodb://localhost/items', { useNewUrlParser: true });
 
 const { Schema } = mongoose;
 
 const itemSchema = new Schema({
   id: Number,
   name: String,
-  photo: String,
+  photo: Array,
 });
 
 const item = mongoose.model('Item', itemSchema);
