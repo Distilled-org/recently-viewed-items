@@ -1,1 +1,1 @@
-# Alex_service
+Welcome to the Recently Viewed Component
