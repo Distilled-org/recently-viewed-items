@@ -7,7 +7,7 @@ const { Schema } = mongoose;
 const itemSchema = new Schema({
   id: Number,
   name: String,
-  photo: Array,
+  imgObjects: Array,
 });
 
 const item = mongoose.model('Item', itemSchema);
