@@ -11,14 +11,13 @@ module.exports = {
     path: dist,
   },
   resolve: {
-    extensions: ['*', 'js.', 'jsx'],
+    extensions: ['*', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /(node_modules)/,
-        include: src,
+        exclude: /node_modules/,
         loader: 'babel-loader',
       },
     ],
