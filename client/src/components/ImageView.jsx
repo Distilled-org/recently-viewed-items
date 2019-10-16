@@ -1,5 +1,22 @@
 import React from 'react';
 import Photo from './Photo.jsx';
+import styled from 'styled-components';
+
+const View = styled.div`
+  &:hover ${Button} {
+    transition: all 0.5s ease-in-out;
+  }
+`;
+
+const Button = styled.button`
+background: white;
+color: black;
+font-size: 1em;
+font-weight: bold;
+padding: 1.25rem 1rem;
+font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+
+`;
 
 class ImageView extends React.Component {
   constructor(props) {
@@ -96,8 +113,8 @@ class ImageView extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.scrollLeft}>Scroll Left</button>
+      <View>
+        <Button onClick={this.scrollLeft}>&lt;</Button>
         {this.props.imgObjects.map((img, idx) => (
          this.position1Visible(idx) && <Photo name={img.name} url={img.photo} key={idx}/>
         ))}
@@ -109,8 +126,8 @@ class ImageView extends React.Component {
         {this.props.imgObjects.map((img, idx) => (
          this.position3Visible(idx) && <Photo name={img.name} url={img.photo} key={idx}/>
         ))}
-        <button onClick={this.scrollRight}>Scroll Right</button>
-      </div>
+        <Button onClick={this.scrollRight}>&gt;</Button>
+      </View>
     )
   }
 }
