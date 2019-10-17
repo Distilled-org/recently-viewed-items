@@ -22,6 +22,11 @@ const ImageView = styled.div`
   display: flex;
   margin: 0px;
   margin-top: 20px;
+  transition: ${(props) => props.sliding ? 'none' : 'transform 1s ease'};
+  transform: ${(props) => {
+    if (!props.sliding) return 'translateX(calc(-33.3333%))'
+    return 'translateX(0%)'
+  }};
 `;
 
 const Button = styled.button`
@@ -50,10 +55,12 @@ class App extends React.Component {
     this.state = {
       items: [],
       position: 0,
+      sliding: false,
     }
     this.checkMount = this.checkMount.bind(this);
     this.getItemOrder = this.getItemOrder.bind(this);
     this.nextImage = this.nextImage.bind(this);
+    this.slideEffect = this.slideEffect.bind(this);
   }
 
   componentDidMount() {
@@ -100,9 +107,20 @@ class App extends React.Component {
       newPosition = position + 1;
     }
 
+    this.slideEffect(newPosition)
+  }
+
+  slideEffect(position) {
     this.setState({
-      position: newPosition
+      sliding: true,
+      position: position
     })
+    setTimeout(() => {
+
+      this.setState({
+        sliding: false,
+      })
+    }, 50);
   }
 
   render() {
@@ -111,7 +129,7 @@ class App extends React.Component {
       <div>
         <Header>RECENTLY VIEWED</Header>
         <Wrapper>
-          {this.checkMount() && <ImageView>
+          {this.checkMount() && <ImageView sliding={this.state.sliding}>
             {this.state.items.imgObjects.map((img, idx) => (
               <Photo name={img.name} key={idx} order={this.getItemOrder(idx)}>
                 <img src={img.photo}></img>
