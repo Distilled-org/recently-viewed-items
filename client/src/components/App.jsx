@@ -25,6 +25,7 @@ const ImageView = styled.div`
   transition: ${(props) => props.sliding ? 'none' : 'transform 1s ease'};
   transform: ${(props) => {
     if (!props.sliding) return 'translateX(calc(-33.3333%))'
+    if (props.direction === 'prev') return 'translateX(calc(2 * (-33.3333%)))'
     return 'translateX(0%)'
   }};
 `;
@@ -41,8 +42,6 @@ font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 const Photo = styled.div`
   flex: 1 0 33.3333%;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
   margin-right: 5px;
   margin-left: 5px;
   order: ${(props) => props.order};
@@ -55,11 +54,13 @@ class App extends React.Component {
     this.state = {
       items: [],
       position: 0,
+      direction: 'next',
       sliding: false,
     }
     this.checkMount = this.checkMount.bind(this);
     this.getItemOrder = this.getItemOrder.bind(this);
     this.nextImage = this.nextImage.bind(this);
+    this.previousImage = this.previousImage.bind(this);
     this.slideEffect = this.slideEffect.bind(this);
   }
 
@@ -107,12 +108,28 @@ class App extends React.Component {
       newPosition = position + 1;
     }
 
-    this.slideEffect(newPosition)
+    this.slideEffect('next', newPosition)
   }
 
-  slideEffect(position) {
+  previousImage(event) {
+    event.preventDefault();
+    const position = this.state.position;
+    const items = this.state.items.imgObjects.slice();
+    const numItems = items.length;
+    let newPosition = 0;
+    if (position === 0) {
+      newPosition = numItems - 1;
+    } else {
+      newPosition = position - 1;
+    }
+
+    this.slideEffect('prev', newPosition)
+  }
+
+  slideEffect(direction, position) {
     this.setState({
       sliding: true,
+      direction: direction,
       position: position
     })
     setTimeout(() => {
@@ -129,7 +146,7 @@ class App extends React.Component {
       <div>
         <Header>RECENTLY VIEWED</Header>
         <Wrapper>
-          {this.checkMount() && <ImageView sliding={this.state.sliding}>
+          {this.checkMount() && <ImageView direction={this.state.direction} sliding={this.state.sliding}>
             {this.state.items.imgObjects.map((img, idx) => (
               <Photo name={img.name} key={idx} order={this.getItemOrder(idx)}>
                 <img src={img.photo}></img>
@@ -138,7 +155,8 @@ class App extends React.Component {
           </ImageView>}
         </Wrapper>
 
-        <button onClick={this.nextImage}>Next</button>
+        <Button onClick={this.previousImage}>&lt;</Button>
+        <Button onClick={this.nextImage}>&gt;</Button>
       </div>
     )
   }
