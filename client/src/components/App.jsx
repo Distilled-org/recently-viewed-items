@@ -71,10 +71,7 @@ const ImageView = styled.div`
   }};
 `;
 
-<<<<<<< HEAD
-=======
 // recently changed max-hight and max-width to be the maximum of the picture to avoid stretching
->>>>>>> 8543727378f3b359197e51cdc01c00ac74bf1a6d
 const Photo = styled.div`
   flex: 1 0 33.3333%;
   flex-direction: row;
@@ -107,8 +104,6 @@ const Image = styled.img`
     opacity: 0.3;
   }
 `;
-<<<<<<< HEAD
-=======
 
 const WhiteSpaceL = styled.div`
   background-color: blue;
@@ -123,7 +118,6 @@ const WhiteSpaceR = styled.div`
   height: 100%;
   width: 100px;
 `;
->>>>>>> 8543727378f3b359197e51cdc01c00ac74bf1a6d
 
 class App extends React.Component {
   constructor(props) {
@@ -232,10 +226,7 @@ class App extends React.Component {
       <AppDisplay>
         <Header>RECENTLY VIEWED</Header>
         <Wrapper onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
-<<<<<<< HEAD
-=======
           <WhiteSpaceL></WhiteSpaceL>
->>>>>>> 8543727378f3b359197e51cdc01c00ac74bf1a6d
           {this.state.isHovering && <ButtonLeft onClick={this.previousImage}>&lt;</ButtonLeft>}
 
           {this.checkMount() && <ImageView direction={this.state.direction} sliding={this.state.sliding}>
@@ -248,10 +239,7 @@ class App extends React.Component {
           </ImageView>}
 
           {this.state.isHovering && <ButtonRight onClick={this.nextImage}>&gt;</ButtonRight>}
-<<<<<<< HEAD
-=======
           <WhiteSpaceR></WhiteSpaceR>
->>>>>>> 8543727378f3b359197e51cdc01c00ac74bf1a6d
         </Wrapper>
       </AppDisplay>
     )
