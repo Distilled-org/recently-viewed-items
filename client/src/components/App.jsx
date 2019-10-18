@@ -13,16 +13,57 @@ const Header = styled.h3`
   text-align: center;
 `;
 
+const AppDisplay = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const ButtonLeft = styled.button`
+top: 34%;
+background: white;
+color: black;
+font-size: 1em;
+font-weight: bold;
+z-index: 10;
+padding: 1.25rem 1rem;
+border: none;
+outline: none;
+font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+`;
+
+const ButtonRight = styled.button`
+top: 34%;
+background: white;
+color: black;
+font-size: 1em;
+font-weight: bold;
+z-index: 10;
+padding: 1.25rem 1rem;
+border: none;
+outline: none;
+font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+`;
+
 const Wrapper = styled.div`
   width: 100%;
   overflow: hidden;
+  &:hover ${ButtonLeft} {
+    position: absolute;
+    left: 23px;
+  }
+  &:hover ${ButtonRight} {
+    position: absolute;
+    right: 25px;
+  }
 `;
 
 const ImageView = styled.div`
   display: flex;
   margin: 0px;
   margin-top: 20px;
-  transition: ${(props) => props.sliding ? 'none' : 'transform 1s ease'};
+  transition: ${(props) => props.sliding ? 'none' : 'transform .5s ease'};
   transform: ${(props) => {
     if (!props.sliding) return 'translateX(calc(-33.3333%))'
     if (props.direction === 'prev') return 'translateX(calc(2 * (-33.3333%)))'
@@ -30,21 +71,52 @@ const ImageView = styled.div`
   }};
 `;
 
-const Button = styled.button`
-background: white;
-color: black;
-font-size: 1em;
-font-weight: bold;
-padding: 1.25rem 1rem;
-font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
-`;
-
+// recently changed max-hight and max-width to be the maximum of the picture to avoid stretching
 const Photo = styled.div`
   flex: 1 0 33.3333%;
   flex-direction: row;
   margin-right: 5px;
   margin-left: 5px;
+  z-index: 1;
+  opacity: 1;
   order: ${(props) => props.order};
+
+  &:hover ${Text} {
+    color: black;
+  }
+`;
+
+const Text = styled.div`
+  position: absolute;
+  z-index: -10;
+  top: 40%;
+  font-family: "Helvetica Neue LT W01_71488914 Bd",Helvetica,Arial,sans-serif!important;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+`;
+
+const Image = styled.img`
+  &:hover {
+    transition: opacity 0.1s ease;
+    opacity: 0.3;
+  }
+`;
+
+const WhiteSpaceL = styled.div`
+  background-color: blue;
+  position: absolute:
+  height: 100%;
+  width: 100px;
+`;
+
+const WhiteSpaceR = styled.div`
+  background-color: blue;
+  position: absolute:
+  height: 100%;
+  width: 100px;
 `;
 
 class App extends React.Component {
@@ -56,12 +128,14 @@ class App extends React.Component {
       position: 0,
       direction: 'next',
       sliding: false,
+      isHovering: false,
     }
     this.checkMount = this.checkMount.bind(this);
     this.getItemOrder = this.getItemOrder.bind(this);
     this.nextImage = this.nextImage.bind(this);
     this.previousImage = this.previousImage.bind(this);
     this.slideEffect = this.slideEffect.bind(this);
+    this.handleMouseHover = this.handleMouseHover.bind(this);
   }
 
   componentDidMount() {
@@ -140,24 +214,34 @@ class App extends React.Component {
     }, 50);
   }
 
+  handleMouseHover() {
+    this.setState({
+      isHovering: !this.state.isHovering
+    });
+  }
+
   render() {
     console.log(this.state.items)
     return (
-      <div>
+      <AppDisplay>
         <Header>RECENTLY VIEWED</Header>
-        <Wrapper>
+        <Wrapper onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
+          <WhiteSpaceL></WhiteSpaceL>
+          {this.state.isHovering && <ButtonLeft onClick={this.previousImage}>&lt;</ButtonLeft>}
+
           {this.checkMount() && <ImageView direction={this.state.direction} sliding={this.state.sliding}>
             {this.state.items.imgObjects.map((img, idx) => (
               <Photo name={img.name} key={idx} order={this.getItemOrder(idx)}>
-                <img src={img.photo}></img>
+                <Text>{img.name}</Text>
+                <Image src={img.photo}></Image>
               </Photo>
             ))}
           </ImageView>}
-        </Wrapper>
 
-        <Button onClick={this.previousImage}>&lt;</Button>
-        <Button onClick={this.nextImage}>&gt;</Button>
-      </div>
+          {this.state.isHovering && <ButtonRight onClick={this.nextImage}>&gt;</ButtonRight>}
+          <WhiteSpaceR></WhiteSpaceR>
+        </Wrapper>
+      </AppDisplay>
     )
   }
 }
