@@ -31,14 +31,14 @@
     "jest-cli": "^24.9.0",
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
-    "mongoose": "^5.7.4",
+    "mongoose": "^5.7.5",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "request": "^2.88.0",
     "styled-components": "^4.4.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.3",
+    "@babel/core": "^7.6.4",
     "@babel/plugin-transform-modules-commonjs": "^7.6.0",
     "@babel/polyfill": "^7.6.0",
     "@babel/preset-env": "^7.6.3",
@@ -57,7 +57,7 @@
     "eslint-plugin-react": "^7.16.0",
     "eslint-plugin-react-hooks": "^1.7.0",
     "style-loader": "^1.0.0",
-    "webpack": "^4.41.0",
+    "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9",
     "webpack-dev-server": "^3.8.2"
   }
