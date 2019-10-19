@@ -117,7 +117,6 @@ class App extends React.Component {
       sliding: false,
       isHovering: false,
     }
-    this.checkMount = this.checkMount.bind(this);
     this.getItemOrder = this.getItemOrder.bind(this);
     this.nextImage = this.nextImage.bind(this);
     this.previousImage = this.previousImage.bind(this);
@@ -136,14 +135,6 @@ class App extends React.Component {
     .catch((err) => {
       console.log(err);
     })
-  }
-
-  checkMount() {
-    if (this.state.items.length !== 0) {
-      return true
-    } else {
-      return false
-    }
   }
 
   getItemOrder(itemIndex) {
@@ -208,21 +199,20 @@ class App extends React.Component {
   }
 
   render() {
-    // console.log(this.state.items)
     return (
       <AppDisplay>
         <Header>RECENTLY VIEWED</Header>
         <Wrapper onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
           {this.state.isHovering && <ButtonLeft onClick={this.previousImage}>&lt;</ButtonLeft>}
 
-          {this.checkMount() && <ImageView direction={this.state.direction} sliding={this.state.sliding}>
+           <ImageView direction={this.state.direction} sliding={this.state.sliding}>
             {this.state.items.map((img, idx) => (
               <Photo name={img.name} key={idx} order={this.getItemOrder(idx)}>
                 <Text>{img.name}</Text>
                 <Image src={img.photo}></Image>
               </Photo>
             ))}
-          </ImageView>}
+          </ImageView>
 
           {this.state.isHovering && <ButtonRight onClick={this.nextImage}>&gt;</ButtonRight>}
         </Wrapper>

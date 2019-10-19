@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {shallow, mount} from 'enzyme';
+import Enzyme, {shallow, mount} from 'enzyme';
 import App from './App.jsx';
 import axios from 'axios';
 import moxios from 'moxios';
@@ -19,6 +19,13 @@ describe('App rendering', () => {
     const component = shallow(<App />);
     expect(component.find("Header")).toHaveLength(1);
   });
+
+  it('Both <ButtonLeft/> and <ButtonRight/> are rendering when isHovering is true', () => {
+    const component = shallow(<App />);
+    component.setState({isHovering: true});
+    expect(component.find("ButtonLeft")).toHaveLength(1);
+    expect(component.find("ButtonRight")).toHaveLength(1);
+  })
 
   it('ImageView renders if state contains items', () => {
     const component = shallow(<App />);
@@ -60,6 +67,36 @@ describe('App rendering', () => {
     expect(component.find("Text")).toHaveLength(3);
     expect(component.find("Image")).toHaveLength(3);
   })
+});
+
+
+describe('App state', () => {
+  it('isHovering state changes on mouseEnter and mouseLeave', () => {
+    const component = shallow(<App />);
+    expect(component.state("isHovering")).toBe(false);
+    component.find("Wrapper").simulate("mouseenter");
+    expect(component.state("isHovering")).toBe(true);
+    component.find("Wrapper").simulate("mouseleave");
+    expect(component.state("isHovering")).toBe(false);
+  })
+
+});
+
+describe('Button Clicks', () => {
+  it('ButtonLeft uses the onClick handler', () => {
+    const component = shallow(<App />);
+    const jestFunc = jest.fn();
+    // component.setState({isHovering: true});
+
+    component.previousImage = jestFunc;
+    component.find("ButtonLeft").simulate("click");
+    expect(jestFunc.mock.calls.length).toBe(1);
+  })
+
+
+});
+
+
 
 
 // it('Renders a styled component', () => {
@@ -78,11 +115,11 @@ describe('App rendering', () => {
 //   expect(component.exists('Info_Bar')).toBe(true)
 // });
 
-// check for state change of .isHovering on mouse over
-// check for the array length - 1 to be the same as the number of Photo renders
+
+
 // check that Text actually display's the image.name property
 // check that Image src property is the same as the url
-
-
-
-});
+// check button clicks doing their proper functions?
+// test that props are being received properly?
+// test database?
+// test server?
