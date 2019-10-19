@@ -71,7 +71,6 @@ const ImageView = styled.div`
   }};
 `;
 
-// recently changed max-hight and max-width to be the maximum of the picture to avoid stretching
 const Photo = styled.div`
   flex: 1 0 33.3333%;
   flex-direction: row;
@@ -105,23 +104,11 @@ const Image = styled.img`
   }
 `;
 
-const WhiteSpaceL = styled.div`
-  background-color: blue;
-  position: absolute:
-  height: 100%;
-  width: 100px;
-`;
-
-const WhiteSpaceR = styled.div`
-  background-color: blue;
-  position: absolute:
-  height: 100%;
-  width: 100px;
-`;
-
 class App extends React.Component {
   constructor(props) {
     super(props);
+
+    // {imgObjects: []}
 
     this.state = {
       items: [],
@@ -143,7 +130,7 @@ class App extends React.Component {
     axios.get(`/items/${randomNum}`)
     .then((response) => {
       this.setState({
-        items: response.data
+        items: response.data.imgObjects
       })
     })
     .catch((err) => {
@@ -161,7 +148,7 @@ class App extends React.Component {
 
   getItemOrder(itemIndex) {
     const position = this.state.position;
-    const items = this.state.items.imgObjects.slice();
+    const items = this.state.items.slice();
     const numItems = items.length || 1;
 
     if (itemIndex - position < 0) {
@@ -173,7 +160,7 @@ class App extends React.Component {
   nextImage(event) {
     event.preventDefault();
     const position = this.state.position;
-    const items = this.state.items.imgObjects.slice();
+    const items = this.state.items.slice();
     const numItems = items.length || 1;
     let newPosition = 0;
     if (position === (numItems - 1)) {
@@ -188,7 +175,7 @@ class App extends React.Component {
   previousImage(event) {
     event.preventDefault();
     const position = this.state.position;
-    const items = this.state.items.imgObjects.slice();
+    const items = this.state.items.slice();
     const numItems = items.length;
     let newPosition = 0;
     if (position === 0) {
@@ -221,16 +208,15 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.items)
+    // console.log(this.state.items)
     return (
       <AppDisplay>
         <Header>RECENTLY VIEWED</Header>
         <Wrapper onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
-          <WhiteSpaceL></WhiteSpaceL>
           {this.state.isHovering && <ButtonLeft onClick={this.previousImage}>&lt;</ButtonLeft>}
 
           {this.checkMount() && <ImageView direction={this.state.direction} sliding={this.state.sliding}>
-            {this.state.items.imgObjects.map((img, idx) => (
+            {this.state.items.map((img, idx) => (
               <Photo name={img.name} key={idx} order={this.getItemOrder(idx)}>
                 <Text>{img.name}</Text>
                 <Image src={img.photo}></Image>
@@ -239,7 +225,6 @@ class App extends React.Component {
           </ImageView>}
 
           {this.state.isHovering && <ButtonRight onClick={this.nextImage}>&gt;</ButtonRight>}
-          <WhiteSpaceR></WhiteSpaceR>
         </Wrapper>
       </AppDisplay>
     )
