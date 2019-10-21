@@ -21,10 +21,26 @@ function createImageObjects() {
   return result;
 }
 
-for (let i = 0; i < 100; i += 1) {
-  const obj = {
-    id: i,
-    imgObjects: createImageObjects(),
-  };
-  itemModel.item.create(obj);
+async function addData() {
+  const promises = [];
+  for (let i = 0; i < 100; i += 1) {
+    const obj = {
+      id: i,
+      imgObjects: createImageObjects(),
+    };
+    // eslint-disable-next-line no-await-in-loop
+    const newItem = await itemModel.item.create(obj);
+    promises.push(newItem);
+  }
+  return promises;
 }
+
+addData()
+  .then(() => {
+    console.log('Database complete!');
+    process.exit();
+  })
+  .catch((err) => {
+    console.log('An error occurred in database creation');
+    console.log(err);
+  });

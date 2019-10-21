@@ -2,6 +2,116 @@ import React from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      items: [],
+      position: 0,
+      direction: 'next',
+      sliding: false,
+      isHovering: false,
+    }
+    this.getItemOrder = this.getItemOrder.bind(this);
+    this.nextImage = this.nextImage.bind(this);
+    this.previousImage = this.previousImage.bind(this);
+    this.slideEffect = this.slideEffect.bind(this);
+    this.handleMouseHover = this.handleMouseHover.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get(`/items/${Math.floor(Math.random() * Math.floor(99))}`)
+      .then((response) => {
+        this.setState({ items: response.data.imgObjects })
+      })
+      .catch((err) => { throw(err); })
+  }
+
+  getItemOrder(itemIndex) {
+    const position = this.state.position;
+    const items = this.state.items.slice();
+    const numItems = items.length || 1;
+
+    if (itemIndex - position < 0) {
+      return numItems - Math.abs(itemIndex - position);
+    }
+    return itemIndex - position;
+  }
+
+  nextImage() {
+    const position = this.state.position;
+    const items = this.state.items.slice();
+    const numItems = items.length || 1;
+    let newPosition = 0;
+    if (position === (numItems - 1)) {
+      newPosition = 0;
+    } else {
+      newPosition = position + 1;
+    }
+
+    this.slideEffect('next', newPosition)
+  }
+
+  previousImage() {
+    const position = this.state.position;
+    const items = this.state.items.slice();
+    const numItems = items.length;
+    let newPosition = 0;
+    if (position === 0) {
+      newPosition = numItems - 1;
+    } else {
+      newPosition = position - 1;
+    }
+
+    this.slideEffect('prev', newPosition)
+  }
+
+  slideEffect(direction, position) {
+    this.setState({
+      sliding: true,
+      direction: direction,
+      position: position
+    })
+    setTimeout(() => {
+
+      this.setState({
+        sliding: false,
+      })
+    }, 50);
+  }
+
+  handleMouseHover() {
+    this.setState({
+      isHovering: !this.state.isHovering
+    });
+  }
+
+  render() {
+    return (
+      <AppDisplay>
+        <Header>RECENTLY VIEWED</Header>
+        <Wrapper onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
+          {this.state.isHovering && <ButtonLeft onClick={this.previousImage}>&lt;</ButtonLeft>}
+
+           <ImageView direction={this.state.direction} sliding={this.state.sliding}>
+            {this.state.items.map((img, idx) => (
+              <Photo key={idx} order={this.getItemOrder(idx)}>
+                <Text>{img.name}</Text>
+                <Image src={img.photo}></Image>
+              </Photo>
+            ))}
+          </ImageView>
+
+          {this.state.isHovering && <ButtonRight onClick={this.nextImage}>&gt;</ButtonRight>}
+        </Wrapper>
+      </AppDisplay>
+    )
+  }
+}
+
+export default App;
+
 const Header = styled.h3`
   font-family: "Helvetica Neue LT W01_71488914 Bd",Helvetica,Arial,sans-serif!important;
   font-size: 14px;
@@ -103,122 +213,3 @@ const Image = styled.img`
     opacity: 0.3;
   }
 `;
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    // {imgObjects: []}
-
-    this.state = {
-      items: [],
-      position: 0,
-      direction: 'next',
-      sliding: false,
-      isHovering: false,
-    }
-    this.getItemOrder = this.getItemOrder.bind(this);
-    this.nextImage = this.nextImage.bind(this);
-    this.previousImage = this.previousImage.bind(this);
-    this.slideEffect = this.slideEffect.bind(this);
-    this.handleMouseHover = this.handleMouseHover.bind(this);
-  }
-
-  componentDidMount() {
-    const randomNum = Math.floor(Math.random() * 99);
-    axios.get(`/items/${randomNum}`)
-    .then((response) => {
-      this.setState({
-        items: response.data.imgObjects
-      })
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-  }
-
-  getItemOrder(itemIndex) {
-    const position = this.state.position;
-    const items = this.state.items.slice();
-    const numItems = items.length || 1;
-
-    if (itemIndex - position < 0) {
-      return numItems - Math.abs(itemIndex - position);
-    }
-    return itemIndex - position;
-  }
-
-  nextImage(event) {
-    event.preventDefault();
-    const position = this.state.position;
-    const items = this.state.items.slice();
-    const numItems = items.length || 1;
-    let newPosition = 0;
-    if (position === (numItems - 1)) {
-      newPosition = 0;
-    } else {
-      newPosition = position + 1;
-    }
-
-    this.slideEffect('next', newPosition)
-  }
-
-  previousImage(event) {
-    event.preventDefault();
-    const position = this.state.position;
-    const items = this.state.items.slice();
-    const numItems = items.length;
-    let newPosition = 0;
-    if (position === 0) {
-      newPosition = numItems - 1;
-    } else {
-      newPosition = position - 1;
-    }
-
-    this.slideEffect('prev', newPosition)
-  }
-
-  slideEffect(direction, position) {
-    this.setState({
-      sliding: true,
-      direction: direction,
-      position: position
-    })
-    setTimeout(() => {
-
-      this.setState({
-        sliding: false,
-      })
-    }, 50);
-  }
-
-  handleMouseHover() {
-    this.setState({
-      isHovering: !this.state.isHovering
-    });
-  }
-
-  render() {
-    return (
-      <AppDisplay>
-        <Header>RECENTLY VIEWED</Header>
-        <Wrapper onMouseEnter={this.handleMouseHover} onMouseLeave={this.handleMouseHover}>
-          {this.state.isHovering && <ButtonLeft onClick={this.previousImage}>&lt;</ButtonLeft>}
-
-           <ImageView direction={this.state.direction} sliding={this.state.sliding}>
-            {this.state.items.map((img, idx) => (
-              <Photo name={img.name} key={idx} order={this.getItemOrder(idx)}>
-                <Text>{img.name}</Text>
-                <Image src={img.photo}></Image>
-              </Photo>
-            ))}
-          </ImageView>
-
-          {this.state.isHovering && <ButtonRight onClick={this.nextImage}>&gt;</ButtonRight>}
-        </Wrapper>
-      </AppDisplay>
-    )
-  }
-}
-
-export default App;

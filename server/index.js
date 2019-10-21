@@ -13,10 +13,9 @@ app.use(express.static(path.resolve(__dirname, '..', 'client', 'src', 'dist')));
 app.use(bp.json());
 
 app.get('/items/:id', (req, res) => {
-  itemModel.item.findOne(req.params, (err, data) => {
+  itemModel.item.findOne(req.params).exec((err, data) => {
     if (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      res.send(500);
     } else {
       res.send(data);
     }
