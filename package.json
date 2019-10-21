@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "react-dev": "webpack -d --watch",
-    "start-server": "nodemon server/index.js",
+    "start": "nodemon server/index.js",
     "seed-database": "node database/Seed.js"
   },
   "repository": {
@@ -35,6 +35,7 @@
     "moxios": "^0.4.0",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "regenerator-runtime": "^0.13.3",
     "request": "^2.88.0",
     "styled-components": "^4.4.0"
   },

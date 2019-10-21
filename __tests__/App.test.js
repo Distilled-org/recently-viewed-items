@@ -4,23 +4,26 @@ import Enzyme, { shallow, mount } from 'enzyme';
 import App from '../client/src/components/App.jsx';
 import styled from 'styled-components';
 import axios from 'axios';
-import moxios from 'moxios';
-import { getMoxiosItem } from '../__mock__/http.js';
 
+describe('Component mounting', () => {
+  it('calls componentDidMount', () => {
+    jest.spyOn(App.prototype, 'componentDidMount')
+    const component = shallow(<App />)
+    expect(App.prototype.componentDidMount.mock.calls.length).toBe(1)
+  })
 
-beforeEach(() => {
-  moxios.install(axios.create({
-    baseURL: 'mongodb://localhost'
-  }))
-})
-
-afterEach(() => {
-  moxios.uninstall(axios.create({
-    baseURL: 'mongodb://localhost'
-  }))
+  it('makes an axios get request to the database', () => {
+    const getRequestSpy = jest.spyOn(axios, 'get')
+    const component = shallow(<App />)
+    expect(getRequestSpy).toBeCalled();
+  })
 })
 
 describe('App rendering', () => {
+  beforeEach(() => {
+    App.prototype.componentDidMount = jest.fn();
+  })
+
   it('App renders without crashing', () => {
   shallow(<App />);
   })
@@ -86,6 +89,10 @@ describe('App rendering', () => {
 
 
 describe('App state', () => {
+  beforeEach(() => {
+    App.prototype.componentDidMount = jest.fn();
+  })
+
   it('isHovering state changes on mouseEnter and mouseLeave', () => {
     const component = shallow(<App />);
     expect(component.state("isHovering")).toBe(false);
@@ -115,6 +122,10 @@ describe('App state', () => {
 });
 
 describe('Button Clicks', () => {
+  beforeEach(() => {
+    App.prototype.componentDidMount = jest.fn();
+  })
+
   it('previousImage handler is invoked when ButtonLeft is clicked', () => {
     const mockFn = jest.fn();
     App.prototype.previousImage = mockFn;
@@ -143,6 +154,10 @@ describe('Button Clicks', () => {
 });
 
 describe('Component Props', () => {
+  beforeEach(() => {
+    App.prototype.componentDidMount = jest.fn();
+  })
+
   it('ImageView component has property "direction"', () => {
     const component = shallow(<App />);
     const view = component.find("ImageView")
@@ -248,79 +263,3 @@ describe('Component Props', () => {
   })
 });
 
-
-describe('Testing Component Mount', () => {
-
-  it('calls componentDidMount', () => {
-    jest.spyOn(App.prototype, 'componentDidMount')
-    const component = shallow(<App />)
-    expect(App.prototype.componentDidMount.mock.calls.length).toBe(1)
-  })
-
-  it('makes an axios get request to the database on mount', () => {
-    const getRequestSpy = jest.spyOn(axios, 'get')
-    const component = shallow(<App />)
-    expect(getRequestSpy).toBeCalled();
-  })
-
-})
-
-describe('moxios', () => {
-  it('test get', async () => {
-    const expectedItem = {
-      "imgObjects": [
-          {
-              "id": 10,
-              "name": "Awesome Wooden Keyboard",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image10.jpg"
-          },
-          {
-              "id": 37,
-              "name": "Unbranded Fresh Towels",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image37.jpg"
-          },
-          {
-              "id": 22,
-              "name": "Ergonomic Plastic Bacon",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image22.jpg"
-          },
-          {
-              "id": 62,
-              "name": "Tasty Fresh Mouse",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image62.jpg"
-          },
-          {
-              "id": 97,
-              "name": "Handcrafted Granite Mouse",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image97.jpg"
-          },
-          {
-              "id": 95,
-              "name": "Licensed Metal Bike",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image95.jpg"
-          },
-          {
-              "id": 85,
-              "name": "Sleek Wooden Tuna",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image85.jpg"
-          },
-          {
-              "id": 6,
-              "name": "Handmade Plastic Salad",
-              "photo": "https://fec-project-photos.s3.us-east-2.amazonaws.com/image6.jpg"
-          }
-      ],
-      "_id": "5dad0822c8d7906c2220d952",
-      "id": 1,
-      "__v": 0
-    }
-
-    moxios.wait(() => {
-      const request = moxios.requests.mostRecent()
-      request.respondWith({ status: 200, response: expectedItem })
-    })
-    const result = await getMoxiosItem(1)
-    console.log(result)
-    expect(result).toEqual(expectedItem)
-  })
-})
