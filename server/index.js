@@ -15,8 +15,7 @@ app.use(bp.json());
 app.get('/items/:id', (req, res) => {
   itemModel.item.findOne(req.params, (err, data) => {
     if (err) {
-      // eslint-disable-next-line no-console
-      console.log(err);
+      res.send(500);
     } else {
       res.send(data);
     }

@@ -13,4 +13,5 @@ module.exports = {
   moduleFileExtensions: ['js', 'jsx', 'json'],
   testURL: 'http://localhost',
   setupFilesAfterEnv: ['./SetupTests.js'],
+  testEnvironment: 'node',
 };

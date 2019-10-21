@@ -6,7 +6,6 @@ const { Schema } = mongoose;
 
 const itemSchema = new Schema({
   id: Number,
-  name: String,
   imgObjects: Array,
 });
 

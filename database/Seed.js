@@ -8,9 +8,9 @@ mongoose.connect('mongodb://localhost/items', { useNewUrlParser: true, useUnifie
 
 function createImageObjects() {
   const result = [];
-  const max = Math.floor(Math.random() * (8 - 1)) + 1;
+  const max = Math.floor(Math.random() * (6 - 1)) + 4;
   for (let i = 0; i < max; i += 1) {
-    const imageIdx = (Math.floor(Math.random() * 100));
+    const imageIdx = (Math.floor(Math.random() * 99));
     const obj = {
       id: imageIdx,
       name: faker.commerce.productName(),
@@ -21,11 +21,26 @@ function createImageObjects() {
   return result;
 }
 
-for (let i = 0; i < 100; i += 1) {
-  const obj = {
-    id: i,
-    name: faker.commerce.productName(),
-    imgObjects: createImageObjects(),
-  };
-  itemModel.item.create(obj);
+async function addData() {
+  const promises = [];
+  for (let i = 0; i < 100; i += 1) {
+    const obj = {
+      id: i,
+      imgObjects: createImageObjects(),
+    };
+    // eslint-disable-next-line no-await-in-loop
+    const newItem = await itemModel.item.create(obj);
+    promises.push(newItem);
+  }
+  return promises;
 }
+
+addData()
+  .then(() => {
+    console.log('Database complete!');
+    process.exit();
+  })
+  .catch((err) => {
+    console.log('An error occurred in database creation');
+    console.log(err);
+  });
