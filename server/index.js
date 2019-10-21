@@ -1,5 +1,5 @@
 const express = require('express');
-
+const cors = require('cors');
 const app = express();
 const PORT = 4000 || process.env.PORT;
 const bp = require('body-parser');
@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/items', { useNewUrlParser: true, useUnifiedTopology: true });
 const itemModel = require('../database/mongooseModel.js');
 
+app.use(cors());
 app.use(express.static(path.resolve(__dirname, '..', 'client', 'src', 'dist')));
 app.use(bp.json());
 

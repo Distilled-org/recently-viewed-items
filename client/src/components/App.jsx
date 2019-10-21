@@ -21,7 +21,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get(`/items/${Math.floor(Math.random() * Math.floor(99))}`)
+    axios.get(`http://localhost:4000/items/${Math.floor(Math.random() * Math.floor(99))}`)
       .then((response) => {
         this.setState({ items: response.data.imgObjects })
       })
