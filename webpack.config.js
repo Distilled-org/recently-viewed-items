@@ -31,7 +31,10 @@ module.exports = {
   optimization: {
     splitChunks: {
       minChunks: Infinity,
-      name: 'vendors',
+      name: 'vendor',
+    },
+    runtimeChunk: {
+      name: 'vendor',
     },
   },
 };
