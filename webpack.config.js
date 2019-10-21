@@ -9,14 +9,8 @@ module.exports = {
     vendor: ['styled-components'],
     app: `${src}/index.jsx`,
   },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      name: "vendor",
-      minChunks: Infinity,
-    }),
-  ],
   output: {
-    filename: 'bundle.js',
+    filename: '[name].bundle.js',
     path: dist,
   },
   resolve: {
@@ -33,5 +27,11 @@ module.exports = {
   },
   devServer: {
     open: true,
+  },
+  optimization: {
+    splitChunks: {
+      minChunks: Infinity,
+      name: 'vendors',
+    },
   },
 };
