@@ -13,7 +13,7 @@ app.use(express.static(path.resolve(__dirname, '..', 'client', 'src', 'dist')));
 app.use(bp.json());
 
 app.get('/items/:id', (req, res) => {
-  itemModel.item.findOne(req.params).exec((err, data) => {
+  itemModel.item.findOne(req.params, (err, data) => {
     if (err) {
       res.send(500);
     } else {
