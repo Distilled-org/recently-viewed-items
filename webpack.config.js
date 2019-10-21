@@ -5,7 +5,16 @@ const dist = path.join(__dirname, '/client/src/dist');
 
 module.exports = {
   mode: 'development',
-  entry: `${src}/index.jsx`,
+  entry: {
+    vendor: ['styled-components'],
+    app: `${src}/index.jsx`,
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "vendor",
+      minChunks: Infinity,
+    }),
+  ],
   output: {
     filename: 'bundle.js',
     path: dist,
