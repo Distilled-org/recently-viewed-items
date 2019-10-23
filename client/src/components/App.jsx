@@ -131,7 +131,7 @@ const AppDisplay = styled.div`
 `;
 
 const ButtonLeft = styled.button`
-top: 34%;
+top: 45%;
 background: white;
 color: black;
 font-size: 1em;
@@ -144,7 +144,7 @@ font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 `;
 
 const ButtonRight = styled.button`
-top: 34%;
+top: 45%;
 background: white;
 color: black;
 font-size: 1em;
@@ -159,13 +159,14 @@ font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
 const Wrapper = styled.div`
   width: 100%;
   overflow: hidden;
+  position: relative;
   &:hover ${ButtonLeft} {
     position: absolute;
-    left: 23px;
+    left: 13px;
   }
   &:hover ${ButtonRight} {
     position: absolute;
-    right: 25px;
+    right: 0px;
   }
 `;
 
