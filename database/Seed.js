@@ -4,8 +4,6 @@ const faker = require('faker');
 
 const itemModel = require('./mongooseModel.js');
 
-mongoose.connect('mongodb://localhost/items', { useNewUrlParser: true, useUnifiedTopology: true });
-
 function createImageObjects() {
   const result = [];
   const max = Math.floor(Math.random() * (6 - 1)) + 4;

@@ -6,7 +6,6 @@ const bp = require('body-parser');
 const path = require('path');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/items', { useNewUrlParser: true, useUnifiedTopology: true });
 const itemModel = require('../database/mongooseModel.js');
 
 app.use(cors());
