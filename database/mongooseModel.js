@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://localhost/items', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('mongodb://mongo/items', { useNewUrlParser: true, useUnifiedTopology: true });
 
 const { Schema } = mongoose;
 

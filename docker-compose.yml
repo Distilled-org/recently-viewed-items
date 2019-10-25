@@ -1,7 +1,7 @@
 version: "3"
 services:
   web:
-    build: .
+    image: "alexcravalho/fec-app:service"
     depends_on:
       - mongo
     ports:

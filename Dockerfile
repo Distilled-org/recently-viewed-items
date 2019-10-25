@@ -1,5 +1,5 @@
 # What image do you want to start building on?
-FROM node
+FROM node:10
 
 # Make a folder in your image where your app's source code can live
 RUN mkdir -p /src/app
@@ -12,9 +12,10 @@ COPY . /src/app
 
 # Does your app have any dependencies that should be installed?
 RUN npm install
+RUN npm run react-dev
 
 # What port will the container talk to the outside world with once created?
 EXPOSE 4000
 
 # How do you start your app?
-CMD [ "npm", "start", "react-dev"]
+CMD [ "npm", "start"]

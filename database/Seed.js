@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const faker = require('faker');
-
+const fs = require('fs');
 
 const itemModel = require('./mongooseModel.js');
 

@@ -5,8 +5,8 @@
   "main": "./client/src/index.jsx",
   "scripts": {
     "test": "jest",
-    "react-dev": "webpack -d --watch",
-    "start": "nodemon server/index.js",
+    "react-dev": "webpack -d",
+    "start": "node server/index.js",
     "seed-database": "node database/Seed.js"
   },
   "repository": {
