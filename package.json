@@ -5,7 +5,8 @@
   "main": "./client/src/index.jsx",
   "scripts": {
     "test": "jest",
-    "react-dev": "webpack -d",
+    "react-dev": "webpack -d --watch",
+    "webpack": "webpack --mode-production",
     "start": "node server/index.js",
     "seed-database": "node database/Seed.js"
   },
@@ -25,6 +26,7 @@
     "babel-eslint": "^10.0.3",
     "bluebird": "^3.7.0",
     "body-parser": "^1.19.0",
+    "compression": "^1.7.4",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "faker": "^4.1.0",

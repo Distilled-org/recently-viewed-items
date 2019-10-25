@@ -98,7 +98,7 @@ class App extends React.Component {
             {this.state.items.map((img, idx) => (
               <Photo key={idx} order={this.getItemOrder(idx)}>
                 <Text>{img.name}</Text>
-                <Image src={img.photo}></Image>
+                <Image src={img.photo} alt={`image${img.id}`}></Image>
               </Photo>
             ))}
           </ImageView>
