@@ -10,9 +10,9 @@ Run the following commands on the terminal after cloning the repository and movi
 3. npm start // starts server
 
 4. You must run either:
-  npm run react-dev for development mode
+  npm run react-dev // for development mode
   or
-  npm run webpack for production mode
+  npm run webpack // for production mode
 
 // this creates both the app.bundle.js and the vendor.bundle.js
 
