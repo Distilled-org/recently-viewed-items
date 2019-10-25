@@ -5,7 +5,8 @@
   "main": "./client/src/index.jsx",
   "scripts": {
     "test": "jest",
-    "react-dev": "webpack -d",
+    "react-dev": "webpack --env=dev -d --watch",
+    "webpack": "webpack --env=prod -d",
     "start": "node server/index.js",
     "seed-database": "node database/Seed.js"
   },
